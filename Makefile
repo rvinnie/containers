@@ -6,11 +6,13 @@ RM = rm -rf
 
 SRCS = $(wildcard testing/*.cpp)
 
+HDRS = $(wildcard testing/*.hpp)
+
 OBJS = $(SRCS:.cpp=.o)
 
 NAME = test
 
-$(NAME):	$(OBJS) testing/launchTest.hpp
+$(NAME):	$(OBJS) $(HDRS)
 	$(CC) $(OBJS) -o $@
 
 %.o:	%.cpp

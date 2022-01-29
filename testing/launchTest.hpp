@@ -1,13 +1,19 @@
 #ifndef LAUNCHTEST_HPP
 # define LAUNCHTEST_HPP
 
-#define COLOR_RED     "\x1b[31m"
-#define COLOR_GREEN   "\x1b[32m"
-#define COLOR_YELLOW  "\x1b[33m"
-#define COLOR_BLUE    "\x1b[34m"
-#define COLOR_MAGENTA "\x1b[35m"
-#define COLOR_CYAN    "\x1b[36m"
-#define COLOR_RESET   "\x1b[0m"
+# define RED     "\x1b[31m"
+# define LRED  "\x1b[1;31m"
+# define GREEN   "\x1b[32m"
+# define LGREEN  "\x1b[1;32m"
+# define GREENBACK "\x1b[2;30;42m"
+
+# define BLUE    "\x1b[34m"
+
+# define CYAN    "\x1b[36m"
+# define RESET   "\x1b[0m"
+
+
+# define SET_LINE    "------- SET TESTS -------"
 
 # include <iostream>
 # include <cstdio>

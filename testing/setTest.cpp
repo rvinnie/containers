@@ -1,6 +1,9 @@
-#include "launchTest.hpp"
+#include "setTest.hpp"
 
 void setTest()
 {
-	std::cout << "~~ set test ~~" << std::endl;
+	std::cout << LCYAN << LINE << RESET << std::endl;
+	std::cout << LCYAN << SET_LINE << RESET << std::endl;
+	std::cout << LCYAN << LINE << RESET << std::endl;
+	std::cout << LCYAN << LINE << std::endl << LINE << std::endl;
 }

@@ -1,4 +1,4 @@
-#include "launchTest.hpp"
+#include "vectorTest.hpp"
 
 // std::vector<int>	getRandomVector(size_t count, int seed = 555)
 // {
@@ -20,5 +20,8 @@
 
 void vectorTest()
 {
-	std::cout << "~~ vector test ~~" << std::endl;
+	std::cout << LMAGENTA << LINE << RESET << std::endl;
+	std::cout << LMAGENTA << VECTOR_LINE << RESET << std::endl;
+	std::cout << LMAGENTA << LINE << RESET << std::endl;
+	std::cout << LMAGENTA << LINE << std::endl << LINE << std::endl;
 }

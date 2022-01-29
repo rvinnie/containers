@@ -1,27 +1,4 @@
-#include "launchTest.hpp"
-#include "../stack/stack.hpp"
-
-// using ft::stack;
-
-// template <typename T>
-// std::stack<T>	getRandomStdStack(size_t count, int seed = 555)
-// {
-// 	srand(seed);
-// 	std::stack<T> stack;
-// 	for (size_t i = 0; i < count; i++)
-// 		stack.push((T)(rand() % 100));
-// 	return stack;
-// }
-
-// template <typename T>
-// ft::stack<T>	getRandomFtStack(size_t count, int seed = 555)
-// {
-// 	srand(seed);
-// 	ft::stack<T> stack;
-// 	for (size_t i = 0; i < count; i++)
-// 		stack.push((T)(rand() % 100));
-// 	return stack;
-// }
+#include "stackTest.hpp"
 
 template <typename T>
 void			compareValues(T stdValue, T ftValue)
@@ -30,27 +7,30 @@ void			compareValues(T stdValue, T ftValue)
 	std::cout << "FT:\t" << ftValue << std::endl << std::endl;
 }
 
-std::string		getColor(int seed)
+void			printHeader(int sizeOfLine, std::string color, std::string name)
 {
-	(void)seed;
-	std::string color;
-	// std::stringstream ss;
-	// ss << seed;
-	color = "\x1b[1;33;42m";
-	return color;
+	//	example: "<<< STRING >>>"
+	int countArrows = (sizeOfLine - name.size() - 2) / 2;
+	std::cout << color;
+	for (int i = 0; i < countArrows; i++)
+		std::cout << "<";
+	std::cout << " " << name << " ";
+	for (int i = 0; i < countArrows; i++)
+		std::cout << ">";
+	std::cout << RESET << std::endl;
 }
 
 template <typename T>
-void			integralTest(std::string name, size_t size, int seed) // does not accept strings
+void			integralTest(std::string nameOfTest, size_t sizeOfStack, int seedForRandom)
 {
-	std::cout << getColor(seed) << "<<<< " << name << " >>>>" << COLOR_RESET << std::endl;
+	printHeader(LINE_SIZE, LYELLOW, nameOfTest);
 	std::stack<T> stdStack;
 	ft::stack<T> ftStack;
-	std::cout << "1) Empty test" << std::endl;
+	std::cout << YELLOW <<  "1) Empty test" << RESET << std::endl;
 	compareValues(stdStack.empty(), ftStack.empty());
 
-	srand(seed);
-	for (size_t i = 0; i < size; i++)
+	srand(seedForRandom);
+	for (size_t i = 0; i < sizeOfStack; i++)
 	{
 		T value = rand() % 100;
 		stdStack.push(value);
@@ -58,18 +38,18 @@ void			integralTest(std::string name, size_t size, int seed) // does not accept 
 	}
 
 	compareValues(stdStack.empty(), ftStack.empty());
-	std::cout << "2) Size test" << std::endl;
+	std::cout << YELLOW << "2) Size test" << RESET << std::endl;
 	compareValues(stdStack.size(), ftStack.size());
-	std::cout << "3) Top test" << std::endl;
+	std::cout << YELLOW << "3) Top test" << RESET << std::endl;
 	compareValues(stdStack.top(), ftStack.top());
-	std::cout << "4) Pop test" << std::endl;
+	std::cout << YELLOW << "4) Pop test" << RESET << std::endl;
 	stdStack.pop();
 	stdStack.pop();
 	ftStack.pop();
 	ftStack.pop();
 	compareValues(stdStack.size(), ftStack.size());
 	compareValues(stdStack.top(), ftStack.top());
-	std::cout << "5) Push test" << std::endl;
+	std::cout << YELLOW << "5) Push test" << RESET << std::endl;
 	stdStack.push(42);
 	stdStack.push(77);
 	ftStack.push(42);	
@@ -80,11 +60,10 @@ void			integralTest(std::string name, size_t size, int seed) // does not accept 
 
 void			stringTest()
 {
-	std::cout << COLOR_RED << "< STRING >" << COLOR_RESET << std::endl;
+	printHeader(LINE_SIZE, LYELLOW, "STRING");
 	std::stack<std::string> stdStack;
 	ft::stack<std::string> ftStack;
-
-	std::cout << "1) Empty test" << std::endl;
+	std::cout << YELLOW <<  "1) Empty test" << RESET << std::endl;
 	compareValues(stdStack.empty(), ftStack.empty());
 	stdStack.push("Ben");
 	stdStack.push("Bob");
@@ -97,18 +76,18 @@ void			stringTest()
 	ftStack.push("John");
 	ftStack.push("Diana");
 	compareValues(stdStack.empty(), ftStack.empty());
-	std::cout << "2) Size test" << std::endl;
+	std::cout << YELLOW << "2) Size test" << RESET << std::endl;
 	compareValues(stdStack.size(), ftStack.size());
-	std::cout << "3) Top test" << std::endl;
+	std::cout << YELLOW << "3) Top test" << RESET << std::endl;
 	compareValues(stdStack.top(), ftStack.top());
-	std::cout << "4) Pop test" << std::endl;
+	std::cout << YELLOW << "4) Pop test" << RESET << std::endl;
 	stdStack.pop();
 	stdStack.pop();
 	ftStack.pop();
 	ftStack.pop();
 	compareValues(stdStack.size(), ftStack.size());
 	compareValues(stdStack.top(), ftStack.top());
-	std::cout << "5) Push test" << std::endl;
+	std::cout << YELLOW << "5) Push test" << RESET << std::endl;
 	stdStack.push("Mark");
 	stdStack.push("Rose");
 	ftStack.push("Mark");
@@ -119,7 +98,10 @@ void			stringTest()
 
 void			stackTest()
 {
-	std::cout << COLOR_GREEN << "/////// STACK TESTS ///////" << COLOR_RESET << std::endl;
+	std::cout << LYELLOW << LINE << RESET << std::endl;
+	std::cout << LYELLOW << STACK_LINE << RESET << std::endl;
+	std::cout << LYELLOW << LINE << RESET << std::endl;
+
 	integralTest<int>("INT", 15, 1);
 	integralTest<double>("DOUBLE", 40, 2);
 	integralTest<float>("FLOAT", 30, 3);
@@ -127,4 +109,6 @@ void			stackTest()
 	integralTest<short>("SHORT", 100, 5);
 	integralTest<char>("CHAR", 19, 6);
 	stringTest();
+
+	std::cout << LYELLOW << LINE << std::endl << LINE << std::endl;
 }

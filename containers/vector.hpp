@@ -1,11 +1,21 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-#include <iostream>
+# include <iostream>
+# include <exception>
+# include <iterator>
+
+# include "../iterator/random_access_iterator.hpp"
+# include "../iterator/reverse_iterator.hpp"
+# include "../utils/enable_if.hpp"
+# include "../utils/equal.hpp"
+# include "../utils/is_integral.hpp"
+# include "../utils/lexicographical_compare.hpp"
+# include "../utils/swap.hpp"
 
 namespace ft{
 
-	template <class T, class Alloc = std::allocator<T>>
+	template < class T, class Alloc = std::allocator<T> >
 	class vector
 	{
 		public:
@@ -42,23 +52,22 @@ namespace ft{
 				_size = n;
 				_capacity = n;
 				_ptr = _allocator.allocate(n);
-				for (int i = 0; i < n; ++i)
+				for (size_type i = 0; i < n; ++i)
 				{
 					_allocator.construct(_ptr + i, val);
 				}
 			}
 			
 			template <class InputIterator>
-         	vector (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last, const allocator_type& alloc = allocator_type())
+			vector (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last, const allocator_type& alloc = allocator_type())
 			{
 				_ptr = NULL;
 				_allocator = alloc;
 				_size = std::distance(first, last);
 				_capacity = std::distance(first, last);
 				_ptr = _allocator.allocate(_capacity);
-				for (size_type i = 0; i < _size; ++i) {
+				for (size_type i = 0; i < _size; ++i)
 					_allocator.construct(_ptr + i, *(first + i));
-			}
 			}
 
 			vector (const vector& x)
@@ -67,7 +76,7 @@ namespace ft{
 				_size = x._size;
 				_capacity = x._capacity;
 				_ptr = _allocator.allocate(_capacity);
-				for (int i = 0; i < _size; ++i)
+				for (size_type i = 0; i < _size; ++i)
 				{
 					_allocator.construct(_ptr + i, *(x._ptr + i));
 				}
@@ -75,23 +84,23 @@ namespace ft{
 
 			~vector()
 			{
-				for (int i = 0; i < _size; ++i)
+				for (size_type i = 0; i < _size; ++i)
 				{
 					_allocator.destroy(_ptr + i);
 				}
 				_allocator.deallocate(_ptr, _capacity);
-				_ptr = NULL
+				_ptr = NULL;
 			}
 
 			//// Iterators
 			iterator				begin()
 			{
-				return iterator(_ptr)
+				return iterator(_ptr);
 			}
 
 			const_iterator			begin() const
 			{
-				return const_iterator(_ptr)
+				return const_iterator(_ptr);
 			}
 
 			iterator				end()
@@ -160,7 +169,7 @@ namespace ft{
 
 				pointer ptr_tmp;
 				ptr_tmp = _allocator.allocate(n);
-				for (int i = 0; i < _size; ++i) {
+				for (size_type i = 0; i < _size; ++i) {
 					ptr_tmp[i] = _ptr[i];
 				}
 
@@ -217,16 +226,27 @@ namespace ft{
 
 			//// Modifiers
 			template <class InputIterator>
-			void			assign (InputIterator first, InputIterator last);
+			void			assign (InputIterator first,
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last)
+			{
+				clear();
+				for (; first != last; first++)
+					push_back(*first);
+			}
 
-			void			assign (size_type n, const value_type& val);
+			void			assign (size_type n, const value_type& val)
+			{
+				clear();
+				for (size_t x = 0; x < n; x++)
+					push_back(val);
+			}
 
 			void			push_back (const value_type& val)
 			{
 				if (_size >= _capacity)
 					this->reserve(_capacity * 2 + (_capacity == 0));
 
-				_allocator.construct(this->end().pointer(), val);
+				_allocator.construct(this->end().get_pointer(), val);
 				_size++;
 			}
 
@@ -238,12 +258,63 @@ namespace ft{
 				_size--;
 			}
 
-			iterator		insert (iterator position, const value_type& val);
+			iterator		insert (iterator position, const value_type& val)
+			{
+				vector vector_tail(position, end());
 
-    		void			insert (iterator position, size_type n, const value_type& val);
+				while (end() != position)
+					pop_back();
+
+				push_back(val);
+
+				iterator it_tail = vector_tail.begin();
+				while (it_tail != vector_tail.end())
+				{
+					push_back(*it_tail);
+					it_tail++;
+				}
+
+				difference_type insert_position = std::distance(begin(), position);
+				return begin() + insert_position;
+			}
+
+			void			insert (iterator position, size_type n, const value_type& val)
+			{
+				vector vector_tail(position, end());
+
+				while (end() != position)
+					pop_back();
+
+				for (size_t i = 0; i < n; i++)
+					push_back(val);
+
+				iterator it_tail = vector_tail.begin();
+				while (it_tail != vector_tail.end()) {
+					push_back(*it_tail);
+					it_tail++;
+				}
+			}
 
 			template <class InputIterator>
-    		void			insert (iterator position, InputIterator first, InputIterator last);
+    		void			insert (iterator position, InputIterator first,
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) 
+			{
+				vector vector_tail(position, end());
+				
+				while (end() != position)
+					pop_back();
+
+				while (first != last) {
+					push_back(*first);
+					first++;
+				}
+
+				iterator it_tail = vector_tail.begin();
+				while (it_tail != vector_tail.end()) {
+					push_back(*it_tail);
+					it_tail++;
+				}
+			}
 
 			iterator		erase (iterator position)
 			{
@@ -276,7 +347,7 @@ namespace ft{
 			void			swap (vector& x)
 			{
 				ft::swap(this->_ptr, x._ptr);
-				ft::swap(this->_size, x._ptr);
+				ft::swap(this->_size, x._size);
 				ft::swap(this->_capacity, x._capacity);
 				ft::swap(this->_allocator, x._allocator);
 			}

@@ -1,4 +1,4 @@
-#include "launchTest.hpp"
+#include "main.hpp"
 
 void printGreeting()
 {
@@ -14,15 +14,15 @@ int	getTestNumber(std::string value)
 {
 	int testNumber;
 
-	if (value == "all")
+	if (value == "vector")
 		testNumber = 1;
-	else if (value == "vector")
-		testNumber = 2;
 	else if (value == "stack")
-		testNumber = 3;
+		testNumber = 2;
 	else if (value == "map")
-		testNumber = 4;
+		testNumber = 3;
 	else if (value == "set")
+		testNumber = 4;
+	else if (value == "all")
 		testNumber = 5;
 	else
 		testNumber = -1;
@@ -46,19 +46,19 @@ int main(int argc, char *argv[])
 
 	switch (testNumber)
 	{
-		case 2:
+		case 1:
 			vectorTest();
+			break;
+		case 2:
+			stackTest();
 			break;
 		case 3:
-			stackTest();
-			break;
-		case 4:
 			mapTest();
 			break;
-		case 5:
+		case 4:
 			setTest();
 			break;
-		default:
+		case 5:
 			vectorTest();
 			getchar();
 			stackTest();
@@ -66,7 +66,6 @@ int main(int argc, char *argv[])
 			mapTest();
 			getchar();
 			setTest();
-			getchar();
 	}
 	return 0;
 }

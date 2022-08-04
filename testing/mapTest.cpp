@@ -1,4 +1,4 @@
-#include "mapTest.hpp"
+#include "main.hpp"
 
 void mapTest()
 {

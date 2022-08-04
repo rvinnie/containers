@@ -1,4 +1,4 @@
-#include "setTest.hpp"
+#include "main.hpp"
 
 void setTest()
 {

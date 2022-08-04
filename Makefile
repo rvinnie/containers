@@ -6,7 +6,7 @@ RM = rm -rf
 
 SRCS = $(wildcard testing/*.cpp)
 
-HDRS = $(wildcard testing/*.hpp)
+HDRS =
 
 OBJS = $(SRCS:.cpp=.o)
 

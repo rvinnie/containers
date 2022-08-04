@@ -27,17 +27,17 @@ namespace ft
 
 		random_access_iterator(random_access_iterator<ValueType> const &rhs)
 		{
-			_ptr = rhs.getPointer();
+			_ptr = rhs.get_pointer();
 		}
 
 		virtual ~random_access_iterator() {}
 
-		pointer pointer() const
+		pointer get_pointer() const
 		{
 			return _ptr;
 		}
 
-		random_access_iterator		&operator=(const It &rhs) {
+		random_access_iterator		&operator=(const random_access_iterator &rhs) {
 			if (this == &rhs)
 				return *this;
 			this->_ptr = rhs._ptr;
@@ -119,13 +119,13 @@ namespace ft
 	typename random_access_iterator<ValueType>::difference_type operator-(const random_access_iterator<ValueType> &lhs, 
 																		const random_access_iterator<ValueType> &rhs)
 	{
-		return (lhs.pointer() - rhs.pointer());
+		return (lhs.get_pointer() - rhs.get_pointer());
 	}
 
 	template <class ValueType>
 	bool	operator==(const random_access_iterator<ValueType> &lhs, const random_access_iterator<ValueType> &rhs)
 	{
-		return (lhs.pointer() == rhs.pointer());
+		return (lhs.get_pointer() == rhs.get_pointer());
 	}
 	
 	template <class ValueType>
@@ -137,13 +137,13 @@ namespace ft
 	template <class ValueType>
 	bool	operator>(const random_access_iterator<ValueType> &lhs, const random_access_iterator<ValueType> &rhs)
 	{
-		return (lhs.pointer() > rhs.pointer());
+		return (lhs.get_pointer() > rhs.get_pointer());
 	}
 	
 	template <class ValueType>
 	bool	operator<(const random_access_iterator<ValueType> &lhs, const random_access_iterator<ValueType> &rhs)
 	{
-		return (lhs.pointer() < rhs.pointer());
+		return (lhs.get_pointer() < rhs.get_pointer());
 	}
 	
 	template <class ValueType>

@@ -16,8 +16,8 @@ void testVectorIterator()
 	}
 	std::cout << std::endl << std::endl;
 
-	compareValues("iterator", ft_vec.begin(), ft_vec.end(), std_vec.begin(), std_vec.end());
-	compareValues("reverse iterator", ft_vec.rbegin(), ft_vec.rend(), std_vec.rend(), std_vec.rend());
+	compareVectorValues("iterator", ft_vec.begin(), ft_vec.end(), std_vec.begin(), std_vec.end());
+	compareVectorValues("reverse iterator", ft_vec.rbegin(), ft_vec.rend(), std_vec.rbegin(), std_vec.rend());
 }
 
 void testVectorModifiers() 

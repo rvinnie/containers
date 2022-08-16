@@ -40,7 +40,7 @@ void	compareValues(std::string description, T ftValue, T stdValue)
 }
 
 template <typename FtVector, typename StdVector>
-void	compareValues(std::string description, FtVector ft_vector, StdVector std_vector)
+void	compareVectorValues(std::string description, FtVector ft_vector, StdVector std_vector)
 {
 	std::cout << GREEN << "STD " << description << ":" << RESET;
 	for (size_t i = 0; i < std_vector.size(); i++)
@@ -58,7 +58,7 @@ void	compareValues(std::string description, FtVector ft_vector, StdVector std_ve
 }
 
 template <typename IterFt, typename IterStd>
-void    compareValues(std::string description, IterFt ft_begin, IterFt ft_end, IterStd std_begin, IterStd std_end)
+void    compareVectorValues(std::string description, IterFt ft_begin, IterFt ft_end, IterStd std_begin, IterStd std_end)
 {
 	std::cout << GREEN << "STD " << description << ":" << RESET;
 	for (; std_begin < std_end; ++std_begin)
@@ -71,6 +71,42 @@ void    compareValues(std::string description, IterFt ft_begin, IterFt ft_end, I
 	for (; ft_begin < ft_end; ++ft_begin)
 	{
 		std::cout << " " << *ft_begin;
+	}
+	std::cout << std::endl << std::endl;
+}
+
+template <typename FtMap, typename StdMap>
+void	compareMapValues(std::string description, FtMap ft_map, StdMap std_map)
+{
+	std::cout << GREEN << "STD " << description << ":" << RESET;
+	for (size_t i = 0; i < std_map.size(); i++)
+	{
+		std::cout << "[" << std_map->first << "]" << " " << std_map->second << " | ";
+	}
+	std::cout << std::endl;
+	
+	std::cout << GREEN << "FT  " << description << ":" << RESET;
+	for (size_t i = 0; i < ft_map.size(); i++) 
+	{
+		std::cout << "[" << ft_map->first << "]" << " " << ft_map->second << " | ";
+	}
+	std::cout << std::endl << std::endl;
+}
+
+template <typename IterFt, typename IterStd>
+void    compareMapValues(std::string description, IterFt ft_begin, IterFt ft_end, IterStd std_begin, IterStd std_end)
+{
+	std::cout << GREEN << "STD " << description << ":" << RESET;
+	for (; std_begin < std_end; ++std_begin)
+	{
+		std::cout << "[" << std_begin->first << "]" << " " << std_begin->second << " | ";
+	}
+	std::cout << std::endl;
+	
+	std::cout << GREEN << "FT  " << description << ":" << RESET;
+	for (; ft_begin < ft_end; ++ft_begin)
+	{
+		std::cout << "[" << ft_begin->first << "]" << " " << ft_begin->second << " | ";
 	}
 	std::cout << std::endl << std::endl;
 }

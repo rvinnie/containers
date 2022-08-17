@@ -41,24 +41,19 @@ namespace ft {
 		typedef T															*pointer;
 		typedef const T														*const_pointer;
 		typedef Compare														compare_type;
-		typedef typename ft::bidirectional_iterator<T>						iterator;
-		typedef typename ft::bidirectional_iterator<const T>			const_iterator;
+		typedef typename ft::bidirectional_iterator<value_type, value_type*, value_type&>						iterator;
+		typedef typename ft::bidirectional_iterator<value_type, const value_type*, const value_type&>			    const_iterator;
 		typedef typename ft::reverse_iterator<iterator>						reverse_iterator;
 		typedef typename ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 		typedef	ptrdiff_t													difference_type;
 		typedef size_t														size_type;
 
 	public:
-		explicit RBTree(const compare_type comp = Compare(), const allocator_type &alloc = Alloc(), const nalloc_type &nalloc = NAlloc()) 
-		{
-			_compare = comp;
-			_allocator = alloc;
-			_nodeAllocator = nalloc;
-			_root = NULL;
-			_size = 0;
+		explicit RBTree(const compare_type comp = Compare(), const allocator_type &alloc = Alloc(), const nalloc_type &nalloc = NAlloc()) :
+		_compare(comp), _allocator(alloc), _nodeAllocator(nalloc), _root(NULL), _size(0) {
 			_end = _nodeAllocator.allocate(1);
 			_nodeAllocator.construct(_end, TreeNode<value_type>(NULL));
-		}	
+		}
 
 		~RBTree() 
 		{
@@ -67,13 +62,8 @@ namespace ft {
 			_nodeAllocator.deallocate(_end, 1);
 		}
 
-		RBTree(const RBTree &c)
+		RBTree(const RBTree &c) : _compare(c._compare), _allocator(c._allocator), _nodeAllocator(c._nodeAllocator), _root(NULL),  _size(0) 
 		{
-			_compare = c._compare;
-			_allocator = c._allocator;
-			_nodeAllocator = c._nodeAllocator;
-			_root = NULL;
-			_size = 0;
 			_end = _nodeAllocator.allocate(1);
 			_nodeAllocator.construct(_end, TreeNode<value_type>(NULL));
 			insert(c.begin(), c.end());
@@ -91,14 +81,9 @@ namespace ft {
 		}
 
 		template <class InputIterator>
-		RBTree(InputIterator first, InputIterator last, const compare_type comp = Compare(), const allocator_type &alloc = Alloc(), const nalloc_type &nalloc = NAlloc()) :
+  		RBTree(InputIterator first, InputIterator last, const compare_type comp = Compare(), const allocator_type &alloc = Alloc(), const nalloc_type &nalloc = NAlloc()) :
 		_compare(comp), _allocator(alloc), _nodeAllocator(nalloc), _root(NULL), _size(0) 
 		{
-			_compare = comp;
-			_allocator = alloc;
-			_nodeAllocator = nalloc;
-			_root = NULL;
-			_size = 0;
 			_end = _nodeAllocator.allocate(1);
 			_nodeAllocator.construct(_end, TreeNode<value_type>(NULL));
 			insert(first, last);

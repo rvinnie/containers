@@ -27,7 +27,7 @@ void testVectorModifiers()
 
 	ft_vec.assign(5,5);
 	std_vec.assign(5,5);
-	compareValues("vector after assign", ft_vec, std_vec);
+	compareVectorValues("vector after assign", ft_vec, std_vec);
 
 	int val;
 	ft::vector<int> ft_buf_vec;
@@ -49,7 +49,7 @@ void testVectorModifiers()
 	std::vector<int>::iterator std_it = std_buf_vec.begin();
 	std::vector<int>::iterator std_ite = std_buf_vec.end();
 	std_vec.assign(std_it, std_ite);
-	compareValues("vector after assign", ft_vec, std_vec);
+	compareVectorValues("vector after assign", ft_vec, std_vec);
 
 	ft_vec.pop_back();
 	ft_vec.pop_back();
@@ -59,24 +59,24 @@ void testVectorModifiers()
 	std_vec.pop_back();
 	std_vec.pop_back();
 	std_vec.pop_back();
-	compareValues("vector after pop back", ft_vec, std_vec);
+	compareVectorValues("vector after pop back", ft_vec, std_vec);
 
 	ft_vec.insert(ft_vec.end(), 777);
 	std_vec.insert(std_vec.end(), 777);
 
 	ft_vec.insert(ft_vec.begin(), 5, 777);
 	std_vec.insert(std_vec.begin(), 5, 777);
-	compareValues("vector after insert", ft_vec, std_vec);
+	compareVectorValues("vector after insert", ft_vec, std_vec);
 
 	ft_vec.insert(ft_vec.begin(), ft_it, ft_ite);
 	std_vec.insert(std_vec.begin(), std_it, std_ite);
-	compareValues("vector after insert", ft_vec, std_vec);
+	compareVectorValues("vector after insert", ft_vec, std_vec);
 
 	ft_vec.erase(ft_vec.end() - 1);
   	ft_vec.erase(ft_vec.begin(), ft_vec.begin() + 3);
 	std_vec.erase(std_vec.end() - 1);
 	std_vec.erase(std_vec.begin(), std_vec.begin() + 3);
-	compareValues("vector after erase", ft_vec, std_vec);
+	compareVectorValues("vector after erase", ft_vec, std_vec);
 
 	ft::vector<int> ft_swap_vec;
 	std::vector<int> std_swap_vec;
@@ -89,14 +89,14 @@ void testVectorModifiers()
 	}
 	std::cout << std::endl;
 
-	compareValues("vector before swap", ft_swap_vec, std_swap_vec);
+	compareVectorValues("vector before swap", ft_swap_vec, std_swap_vec);
 	ft_vec.swap(ft_swap_vec);
 	std_vec.swap(std_swap_vec);
-	compareValues("vector after swap", ft_swap_vec, std_swap_vec);
+	compareVectorValues("vector after swap", ft_swap_vec, std_swap_vec);
 
 	ft_vec.clear();
 	std_vec.clear();
-	compareValues("vector after clear", ft_vec, std_vec);
+	compareVectorValues("vector after clear", ft_vec, std_vec);
 	compareValues("is vector empty", ft_vec.empty(), std_vec.empty());	
 }
 
@@ -149,7 +149,7 @@ void testVectorElementAccess()
 	}
 	std::cout << std::endl << std::endl;
 
-	compareValues("vector elem", ft_vec, std_vec);
+	compareVectorValues("vector elem", ft_vec, std_vec);
 
 	std::cout << GREEN << "FT  at() vector: " << RESET;
 	for (size_t i = 0; i < ft_vec.size(); i++) 
@@ -169,66 +169,60 @@ void testVectorSpeed()
 {
 	{
 		ft::vector<int> ft_vec;
-		time_t start, end;
 
-		time(&start);
+		unsigned int start_time = clock();
 		for (int i = 0; i < 100000000; i++) {
 			ft_vec.push_back(i);
 		}
-		time(&end);
-		double seconds = difftime(end, start);
+		unsigned int end_time = clock();
+
 		std::cout << GREEN << "FT  vector push_back: " << RESET; 
-		std::cout << seconds << " sec" << std::endl;
+		std::cout << difftime_in_ms(start_time, end_time) << " ms" << std::endl;
 	}
 	//
 	{
 		std::vector<int> std_vec;
-		time_t start, end;
 
-		time(&start);
+		unsigned int start_time = clock();
 		for (int i = 0; i < 100000000; i++) {
 			std_vec.push_back(i);
 		}
-		time(&end);
+		unsigned int end_time = clock();
 
-		double seconds = difftime(end, start);
 		std::cout << GREEN << "STD vector push_back: " << RESET; 
-		std::cout << seconds << " sec" << std::endl<<std::endl;
+		std::cout << difftime_in_ms(start_time, end_time) << " ms" << std::endl<<std::endl;
 	}
 	//
 	{
 		ft::vector<int> ft_vec;
-		time_t start, end;
 
 		for (int i = 0; i < 100000000; i++) {
 			ft_vec.push_back(i);
 		}
-		time(&start);
+		unsigned int start_time = clock();
 		for (int i = 0; i < 100000000; i++) {
 			ft_vec.pop_back();
 		}
-		time(&end);
-		double seconds = difftime(end, start);
+		unsigned int end_time = clock();
+
 		std::cout << GREEN << "FT  vector pop_back:  " << RESET; 
-		std::cout << seconds << " sec" << std::endl;
+		std::cout << difftime_in_ms(start_time, end_time) << " ms" << std::endl;
 	}
 	//
 	{
 		std::vector<int> std_vec;
-		time_t start, end;
 
 		for (int i = 0; i < 100000000; i++) {
 			std_vec.push_back(i);
 		}
-		time(&start);
+		unsigned int start_time = clock();
 		for (int i = 0; i < 100000000; i++) {
 			std_vec.pop_back();
 		}
-		time(&end);
+		unsigned int end_time = clock();
 
-		double seconds = difftime(end, start);
 		std::cout << GREEN << "STD vector pop_back:  " << RESET; 
-		std::cout << seconds << " sec" << std::endl;
+		std::cout << difftime_in_ms(start_time, end_time) << " ms" << std::endl;
 	}
 }
 

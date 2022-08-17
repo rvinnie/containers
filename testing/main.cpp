@@ -2,12 +2,7 @@
 
 void printGreeting()
 {
-	std::cout << "greeting" << std::endl;
- // all
- // vector
- // stack
- // map
- // set
+	std::cout << "./test [all | vector | stack | map | set]" << std::endl;
 }
 
 int	getTestNumber(std::string value)

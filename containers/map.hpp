@@ -25,10 +25,7 @@ namespace ft
 			friend class map;
 		protected:
 			Compare _comp;
-			value_compare(Compare c)
-			{
-				_comp = c;
-			}
+			value_compare(Compare c) : _comp(c) {}
 
 		public:
 			typedef bool result_type;
@@ -50,8 +47,8 @@ namespace ft
 		typedef typename allocator_type::pointer														pointer;
 		typedef typename allocator_type::const_pointer													const_pointer;
 
-		typedef typename ft::bidirectional_iterator<value_type>											iterator;
-		typedef typename ft::bidirectional_iterator<const value_type>									const_iterator;
+		typedef typename ft::bidirectional_iterator<value_type, value_type*, value_type&>												iterator;
+		typedef typename ft::bidirectional_iterator<value_type, const value_type*, const value_type&>									const_iterator;
 
 		typedef typename ft::reverse_iterator<iterator>													reverse_iterator;
 		typedef typename ft::reverse_iterator<const_iterator>											const_reverse_iterator;
@@ -60,22 +57,20 @@ namespace ft
 		typedef typename std::ptrdiff_t																	difference_type;
 
 		// Member functions
-		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-		{
-			_tree = RBTree<value_type, value_compare, allocator_type>(value_compare(comp), alloc);
-		}
+		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :
+		_tree(RBTree<value_type, value_compare, allocator_type>(value_compare(comp), alloc)) {}
 
 		template <class InputIterator>
   		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(), 
-	  	typename ft::enable_if<ft::is_input_iterator_tag<typename InputIterator::iterator_category>::value>::type* = NULL)
-		{
-			_tree = RBTree<value_type, value_compare, allocator_type>(value_compare(comp), alloc);
+	  	typename ft::enable_if<ft::is_input_iterator_tag<typename InputIterator::iterator_category>::value>::type* = NULL) :
+		_tree(RBTree<value_type, value_compare, allocator_type>(value_compare(comp), alloc)) 
+		{ 
 			insert(first, last); 
 		}
 
-		map(const map& x)
+		map(const map& x) :
+		_tree(RBTree<value_type, value_compare, allocator_type>(value_compare(Compare()), Alloc())) 
 		{
-			_tree = RBTree<value_type, value_compare, allocator_type>(value_compare(Compare()), Alloc());
 			_tree.insert(x._tree.begin(), x._tree.end());
 		}
 
